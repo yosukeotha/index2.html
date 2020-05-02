@@ -14,12 +14,22 @@
 
 	<h1>XEMHanco</h1>
 	<div class="input-group" id="div1">
-		<label>パスフレーズ:</label>
-		<input type="image_confirm" type="file" style="display:none">
-		<button type="button" id="button_confirm" class="btn btn-primary">作成</button>
-<div id="confirmed_confirm"><ul></ul></div>
-	</div>
+		<label>申請者QRスキャン:</label>
+				<div class="input-group">
+					<label class="input-group-btn">
+						<span class="btn btn-primary">
+							画像でスキャン<input id="image_confirm" type="file" style="display:none">
+						</span>
+					</label>
+				</div>
 
+				<canvas id="canvas" hidden></canvas>
+				<div id="output" hidden>
+					<div hidden><b>申請者口座ID:</b> <span id="outputData"></span></div>
+				</div>
+		<div><button type="button" id="button_confirm" class="btn btn-primary">押印</button></div>
+				<div id="confirmed_confirm"><ul></ul></div>
+			</div>
 	<div class="collapse" id="div2">
 		<div><img id="hanco"></div>
 		<div><button type="button" id="faucet" class="btn btn-primary">インク充填</button>　<label id="amount">0 XYM</label></div>
