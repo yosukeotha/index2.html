@@ -273,34 +273,34 @@ $("#create").click(
 		alicePublicAccount = alice.publicAccount;
 		exportAccount = new qr.AccountQR(alice,$("#pass").val(), nem.NetworkType.TEST_NET);
 		delete alice;
-		exportAccount.toBase64()
-		.subscribe(x=>{
-			$('#div1').collapse('hide');
-			$('#div2').collapse('show');
-			$('#hanco').attr('src',x);
-		});
 
 		listener
 		.confirmed(alicePublicAccount.address)
 		.pipe(
 			op.delay(1000),
-			op.mergeMap(x=>accountHttp.getAccountInfo(alicePublicAccount.address)),
-			op.mergeMap(_=>_.mosaics),
+			op.mergeMap(x=>{
+				console.log(x);
+				return accountHttp.getAccountInfo(alicePublicAccount.address);
+			}),
+			op.mergeMap(_=>{
+				console.log(_)
+				return _.mosaics
+			}),
 			op.filter(_ => _.id.toHex() === '747B276C30626442')
 		)
 		.subscribe(
 			function(_){
+				console.log(_);
 				$("#amount").text(dispAmount(_.amount.toString(),6) + " XYM");
-				$('#div3').collapse('show');
 			},
 			err => console.error(err)
 		);
 
-		const contactQR = new qr.ContactQR("XEMHanco.1",alicePublicAccount);
-		contactQR.toBase64()
+		const base64 = exportAccount.toBase64()
 		.subscribe(x=>{
-			$('#contact').attr('src',x);
-			$('#text_contact').text(alicePublicAccount.publicKey);
+			$('#div1').collapse('hide');
+			$('#div2').collapse('show');
+			$('#hanco').attr('src',x);
 		});
 	}
 );
